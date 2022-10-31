@@ -1,0 +1,24 @@
+version: "3"
+services:
+  mongodb:
+    container_name: mongodb-docker
+    image: mongo
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+  node-service:
+    depends_on:
+      - mongodb
+    container_name: node-service
+    restart: always
+    env_file: ./.env
+    build: .
+    volumes:
+       - ./:/code
+    ports:
+       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+       - DB_HOST=mongodb
+       - DB_PORT=$MONGODB_DOCKER_PORT
+    stdin_open: true #keep open the terminal after building container
+    tty: true
