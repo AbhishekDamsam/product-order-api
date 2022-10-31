@@ -30,6 +30,5 @@ const schema = new Schema(
     versionKey: false,
   },
 )
-schema.index({ title: 'text', description: 'text' });
 
 export const Order = model<IOrderModel>('Order', schema)
